@@ -1,8 +1,8 @@
-import {TITLE_CHANGED} from '../constants/ActionTypes';
+import {ROOM_SELECTED} from '../constants/ActionTypes';
 
-export function changeTitle(text) {
+export function selectRoom(roomId) {
   return {
-    type: TITLE_CHANGED,
-    text
-  }
+    type: ROOM_SELECTED,
+    roomId
+  };
 }

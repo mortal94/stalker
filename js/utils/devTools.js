@@ -1,4 +1,5 @@
 import React from 'react';
+import {__DEV__} from '../config'
 
 export function renderDevTools(store) {
   if (__DEV__) {

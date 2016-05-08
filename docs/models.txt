@@ -3,9 +3,8 @@ Map = {
 }
 
 Room = {
-	id : Int 
+	id : Int
 	name : String
-	items : Array[Item]
 	locationOnMap : Location
 }
 
@@ -18,7 +17,11 @@ Item = {
 	name : String
 	owner : Person
 	id : Int
+	type : ItemType
+	room: Room
 }
+
+ItemType = HardDrive | Document
 
 Person = {
 	name : String

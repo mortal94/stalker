@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import {devTools, persistState} from 'redux-devtools';
 import * as reducers from '../reducers/index';
 import {__DEV__} from '../config';
+var Firebase = require("firebase");
 
 let createStoreWithMiddleware;
 

@@ -1,90 +1,43 @@
 import * as ActionTypes from '../constants/ActionTypes';
-const ItemType = {
-  HDD: 1,
-  DOC: 2
-};
+var R = require('ramda');
+
 let defaultState = {
-  makmar: {
-    rooms: [
-      {
-        id: 1,
-        name: "Room 1",
-        locationOnMap: {
-          x: 500,
-          y: 70
-        },
-        size: {
-          x: 50,
-          y: 30
-        }
-      },
-      {
-        id: 2,
-        name: "Room 2",
-        locationOnMap: {
-          x: 400,
-          y: 70
-        },
-        size: {
-          x: 50,
-          y: 30
-        }
-      },
-      {
-        id: 3,
-        name: "Room 3",
-        locationOnMap: {
-          x: 300,
-          y: 70
-        },
-        size: {
-          x: 50,
-          y: 30
-        }
-      }
-    ],
-    items: [
-      {
-        id: 1,
-        name: 'WS000000ONIX01',
-        owner: 'Mor Tal',
-        roomId: 1,
-        type: ItemType.HDD
-      },
-      {
-        id: 2,
-        name: 'WS000000ONIX02',
-        owner: 'Aviram Kofman',
-        roomId: 1,
-        type: ItemType.HDD
-      },
-      {
-        id: 3,
-        name: 'WS000000ONIX03',
-        owner: 'Nadav Kaner',
-        roomId: 2,
-        type: ItemType.HDD
-      },
-      {
-        id: 4,
-        name: 'WS000000ONIX04',
-        owner: 'Bar Miliavsky',
-        roomId: 3,
-        type: ItemType.HDD
-      }
-    ]
-  },
+  rooms: [],
+  items: [],
   roomsFilter: null
 };
 
+const updateItemRoom = (items, itemId, roomId) => {
+  const indexByRoomId = R.findIndex(R.propEq('id', itemId));
+  const itemIndex = indexByRoomId(items);
+
+  if (itemIndex === -1) {
+    return items;
+  }
+
+  return R.update(itemIndex, {
+    ...items[itemIndex],
+    roomId: roomId
+  }, items)
+};
+
 export default function (state = defaultState, action) {
-  console.log(state);
   switch (action.type) {
     case ActionTypes.ROOM_SELECTED:
-      return  {
+      return {
         ...state,
         roomsFilter: action.roomId
-    };
+      };
+    case ActionTypes.ITEM_LOG_ADDED:
+      return {
+        ...state,
+        items: updateItemRoom(state.items, action.payload.itemId, action.payload.roomId)
+      };
+    case ActionTypes.INITIAL_DATA_LOADED:
+      return {
+        ...state,
+        ...action.data
+      };
     default:
       return state;
   }

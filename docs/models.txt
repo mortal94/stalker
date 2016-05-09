@@ -14,12 +14,12 @@ Location = {
 }
 
 Item = {
-	name : String
-	owner : Person
-	id : Int
-	type : ItemType
-	room: Room
-}
+ 	name : String
+ 	owner : Person
+ 	id : Int
+ 	type : ItemType
+ 	room: Room
+ }
 
 ItemType = HardDrive | Document
 

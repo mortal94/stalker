@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {selectRoom} from '../actions/HomeActions';
+import {requestInitialData} from './homeThunks';
 
 const styles = {
   makmar: {
@@ -48,10 +49,19 @@ const ItemList = ({items, rooms, roomsFilter, dispatch}) =>
       {items.map(item => <Item key={item.id} item={item} room={getRoomById(rooms, item.roomId)} dispatch={dispatch} />)}
     </div>
 
-const Home = ({makmar, roomsFilter, dispatch}) =>
-  <div>
-    <Makmar rooms={makmar.rooms} dispatch={dispatch}/>
-    <ItemList items={makmar.items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={makmar.rooms} dispatch={dispatch}/>
-  </div>
+class Home extends React.Component {
+  render() {
+    const {rooms, items, roomsFilter, dispatch} = this.props;
+    return <div>
+      <Makmar rooms={rooms} dispatch={dispatch}/>
+      <ItemList items={items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={rooms}
+                dispatch={dispatch}/>
+    </div>
+  }
+
+  componentWillMount() {
+    requestInitialData(this.props.dispatch);
+  }
+}
 
 export default connect(state => state.Home)(Home)

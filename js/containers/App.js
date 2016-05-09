@@ -4,6 +4,8 @@ import configureStore from '../store/configureStore';
 import Home from '../components/Home';
 import {renderDevTools} from '../utils/devTools';
 import {addItemLog} from '../actions/HomeActions';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const store = configureStore();
 
@@ -20,7 +22,9 @@ export default React.createClass({
 
         {/* <Home /> is your app entry point */}
         <Provider store={store}>
-          <Home />
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <Home />
+          </MuiThemeProvider>
         </Provider>
 
         {/* only renders when running in DEV mode */

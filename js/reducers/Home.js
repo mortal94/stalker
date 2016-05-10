@@ -38,6 +38,11 @@ export default function (state = defaultState, action) {
         ...state,
         ...action.data
       };
+    case ActionTypes.CLEAR_ROOMS_FILTER:
+      return {
+        ...state,
+        roomsFilter: null
+      };
     default:
       return state;
   }

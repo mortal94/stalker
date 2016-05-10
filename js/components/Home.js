@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectRoom} from '../actions/HomeActions';
+import {selectRoom, clearRoomsFilter} from '../actions/HomeActions';
 import {requestInitialData} from './homeThunks';
-import {Drawer, ListItem, List, Subheader, AppBar} from 'material-ui';
+import {Drawer, ListItem, List, Subheader, FlatButton, Divider} from 'material-ui';
 import {Icon} from 'react-fa'
 var R = require('ramda');
 
@@ -60,11 +60,25 @@ function getRoomById(rooms, roomId) {
   return rooms.find(room => room.id === roomId);
 }
 
+const renderClearFilters = (roomsFilter, onClearFilters) => {
+  if (roomsFilter) {
+    return (
+      <div>
+        <ListItem onClick={onClearFilters}>Clear filters</ListItem>
+        <Divider />
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const ItemList = ({items, rooms, roomsFilter, dispatch}) =>
     <div style={styles.itemList}>
       <Drawer open={true}>
         <List>
-          <Subheader>Items</Subheader>
+          <Subheader>Items{roomsFilter ? " (Room " + roomsFilter + ")" : null}</Subheader>
+          {renderClearFilters(roomsFilter, () => dispatch(clearRoomsFilter()))}
           {items.map(item => <Item key={item.id} item={item} room={getRoomById(rooms, item.roomId)} dispatch={dispatch} />)}
         </List>
       </Drawer>
@@ -75,7 +89,7 @@ class Home extends React.Component {
     const {rooms, items, roomsFilter, dispatch} = this.props;
     return <div>
       <Makmar rooms={rooms} dispatch={dispatch}/>
-      <ItemList items={items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={rooms}
+      <ItemList items={items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={rooms} roomsFilter={roomsFilter}
                 dispatch={dispatch}/>
     </div>
   }

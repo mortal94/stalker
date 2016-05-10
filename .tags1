@@ -8,5 +8,5 @@ const.EMPTY	D:\Projects\stalker\js\components\Home.js	/^  EMPTY: 0,$/;"	property
 const.HAS_ITEMS	D:\Projects\stalker\js\components\Home.js	/^  HAS_ITEMS: 1$/;"	property	line:11
 const.makmar	D:\Projects\stalker\js\components\Home.js	/^  makmar: {$/;"	property	line:15
 getRoomById	D:\Projects\stalker\js\components\Home.js	/^function getRoomById(rooms, roomId) {$/;"	function	line:59
-render	D:\Projects\stalker\js\components\Home.js	/^  render() {$/;"	function	line:74
-componentWillMount	D:\Projects\stalker\js\components\Home.js	/^  componentWillMount() {$/;"	function	line:83
+render	D:\Projects\stalker\js\components\Home.js	/^  render() {$/;"	function	line:88
+componentWillMount	D:\Projects\stalker\js\components\Home.js	/^  componentWillMount() {$/;"	function	line:97

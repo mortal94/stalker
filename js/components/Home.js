@@ -83,8 +83,8 @@ const Makmar = ({rooms, dispatch}) =>
     <div style={styles.logoContainer}><img style={styles.logo} src="/resources/Onix.png"></img></div>
   </div>
 
-const Item = ({item}) =>
-    <ListItem primaryText={item.name} style={styles.item(item.suspicious)}></ListItem>
+const Item = ({item, room}) =>
+    <ListItem primaryText={item.name} leftIcon={<Icon name="hdd-o" size="2x"/>} secondaryText={item.owner + ', ' + (room ? room.name : 'Traveling')} style={styles.item(item.suspicious)} />
 
 const renderClearFilters = (roomsFilter, onClearFilters) => {
   if (roomsFilter) {
@@ -105,7 +105,7 @@ const ItemList = ({items, rooms, roomsFilter, dispatch}) =>
         <List>
           <Subheader>Items{roomsFilter ? " (Room " + roomsFilter + ")" : null}</Subheader>
           {renderClearFilters(roomsFilter, () => dispatch(clearRoomsFilter()))}
-          {items.map(item => <Item key={item.id} item={item} dispatch={dispatch} />)}
+          {items.map(item => <Item key={item.id} item={item} room={rooms.find(currentRoom => currentRoom.id === item.roomId)} dispatch={dispatch} />)}
         </List>
       </Drawer>
     </div>

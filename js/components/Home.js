@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectRoom, clearRoomsFilter, watchTravelingItems} from '../actions/HomeActions';
-import {requestInitialData} from './homeThunks';
+import {selectRoom, clearRoomsFilter} from '../actions/HomeActions';
+import {requestInitialData, watchTravelingItems} from './homeThunks';
 import {Drawer, ListItem, List, Subheader, FlatButton, Divider} from 'material-ui';
 import {Icon} from 'react-fa'
 var R = require('ramda');
@@ -20,6 +20,15 @@ const styles = {
     left: '450',
     top: '125px',
     width: '1000px'
+  },
+  logoContainer: {
+    position: 'absolute',
+    right: '290px',
+    top: '880px',
+    zIndex: 99
+  },
+  logo: {
+    width: '130px'
   },
   room: ({locationOnMap, size}) => {
     return {
@@ -50,7 +59,10 @@ const styles = {
     boxShadow: '1px 2px 3px 0px rgba(0,0,0,0.75)'
   },
   item: suspicious => {
-    backgroundColor: 'red'
+    return {
+      backgroundColor: suspicious ? 'red' : 'white',
+      color: suspicious ? 'white' : 'black'
+    };
   },
   itemList: {
   },
@@ -68,6 +80,7 @@ const Makmar = ({rooms, dispatch}) =>
   <div style={styles.makmar}>
     <img src="/resources/map.png" style={styles.makmarImage} />
     {rooms.map(room => <Room key={room.id} room={room} dispatch={dispatch}/>)}
+    <div style={styles.logoContainer}><img style={styles.logo} src="/resources/Onix.png"></img></div>
   </div>
 
 const Item = ({item}) =>
@@ -121,7 +134,6 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    debugger;
     this.props.dispatch(requestInitialData());
     this.props.dispatch(watchTravelingItems());
   }

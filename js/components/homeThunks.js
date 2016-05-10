@@ -9,14 +9,19 @@ export function requestInitialData() {
   };
 }
 
-const violationInMilliseconds = 2000;
+const violationInMilliseconds = 10000;
 export function watchTravelingItems() {
   return (dispatch, getState) => {
-    let currentTime = 0;
     setInterval(() => {
       const state = getState();
-      const suspiciousItems = state.Home.items.filter(item => (item.lastUpdated - violationInMilliseconds) > currentTime);
-      dispatch(itemsAreSuspicious(suspiciousItems));
+      let currentTime = new Date().getTime();
+      const suspiciousItems = state.Home.items
+        .filter(item => item.roomId === "-1" &&
+                        (currentTime - item.lastUpdated) > violationInMilliseconds);
+
+      if (suspiciousItems) {
+        dispatch(itemsAreSuspicious(suspiciousItems));
+      }
     }, 1000);
   };
 }

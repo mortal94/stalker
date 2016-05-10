@@ -4,8 +4,5 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-const.EMPTY	D:\Projects\stalker\js\components\Home.js	/^  EMPTY: 0,$/;"	property	line:10
-const.HAS_ITEMS	D:\Projects\stalker\js\components\Home.js	/^  HAS_ITEMS: 1$/;"	property	line:11
-const.makmar	D:\Projects\stalker\js\components\Home.js	/^  makmar: {$/;"	property	line:15
-render	D:\Projects\stalker\js\components\Home.js	/^  render() {$/;"	function	line:111
-componentWillMount	D:\Projects\stalker\js\components\Home.js	/^  componentWillMount() {$/;"	function	line:123
+requestInitialData	D:\Projects\stalker\js\components\homeThunks.js	/^export function requestInitialData() {$/;"	function	line:4
+watchTravelingItems	D:\Projects\stalker\js\components\homeThunks.js	/^export function watchTravelingItems() {$/;"	function	line:13

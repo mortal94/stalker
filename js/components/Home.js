@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectRoom, clearRoomsFilter} from '../actions/HomeActions';
+import {selectRoom, clearRoomsFilter, watchTravelingItems} from '../actions/HomeActions';
 import {requestInitialData} from './homeThunks';
 import {Drawer, ListItem, List, Subheader, FlatButton, Divider} from 'material-ui';
 import {Icon} from 'react-fa'
@@ -17,7 +17,7 @@ const styles = {
   },
   makmarImage: {
     position: 'absolute',
-    left: '550px',
+    left: '450',
     top: '125px',
     width: '1000px'
   },
@@ -34,16 +34,33 @@ const styles = {
       cursor: 'pointer'
     }
   },
+  roomStateContainer: ({x,y}) => {
+    return {
+      position: 'absolute',
+      marginLeft: (x / 2) + 'px',
+      marginTop: (y / 3) + 'px'
+    };
+  },
   roomState: {
-    marginRight: '4px'
+    marginRight: '4px',
+    color: 'yellow',
+    fontSize: '8px',
+    transformOrigin: '50% 50%',
+    animation: '0.5s ease-in',
+    boxShadow: '1px 2px 3px 0px rgba(0,0,0,0.75)'
+  },
+  item: suspicious => {
+    backgroundColor: 'red'
   },
   itemList: {
+  },
+  safe: {
   }
 };
 
 const Room = ({room, dispatch}) =>
     <div style={styles.room(room)} onClick={() => dispatch(selectRoom(room.id))}>
-      {room.state === RoomState.HAS_ITEMS ? <Icon name="exclamation-circle" style={styles.roomState} /> : null}
+      {room.state === RoomState.HAS_ITEMS ? <div style={styles.roomStateContainer(room.size)}><Icon name="circle" style={styles.roomState} /></div> : null}
       <label>{room.name}</label>
     </div>
 
@@ -53,12 +70,8 @@ const Makmar = ({rooms, dispatch}) =>
     {rooms.map(room => <Room key={room.id} room={room} dispatch={dispatch}/>)}
   </div>
 
-const Item = ({item, room}) =>
-    <ListItem primaryText={item.name}></ListItem>
-
-function getRoomById(rooms, roomId) {
-  return rooms.find(room => room.id === roomId);
-}
+const Item = ({item}) =>
+    <ListItem primaryText={item.name} style={styles.item(item.suspicious)}></ListItem>
 
 const renderClearFilters = (roomsFilter, onClearFilters) => {
   if (roomsFilter) {
@@ -79,7 +92,17 @@ const ItemList = ({items, rooms, roomsFilter, dispatch}) =>
         <List>
           <Subheader>Items{roomsFilter ? " (Room " + roomsFilter + ")" : null}</Subheader>
           {renderClearFilters(roomsFilter, () => dispatch(clearRoomsFilter()))}
-          {items.map(item => <Item key={item.id} item={item} room={getRoomById(rooms, item.roomId)} dispatch={dispatch} />)}
+          {items.map(item => <Item key={item.id} item={item} dispatch={dispatch} />)}
+        </List>
+      </Drawer>
+    </div>
+
+const ItemsTraveling = ({items, dispatch}) =>
+    <div style={styles.safe}>
+      <Drawer open={true} openSecondary={true}>
+        <List>
+          <Subheader>Items traveling</Subheader>
+          {items.map(item => <Item key={item.id} item={item} dispatch={dispatch} />)}
         </List>
       </Drawer>
     </div>
@@ -87,15 +110,20 @@ const ItemList = ({items, rooms, roomsFilter, dispatch}) =>
 class Home extends React.Component {
   render() {
     const {rooms, items, roomsFilter, dispatch} = this.props;
-    return <div>
-      <Makmar rooms={rooms} dispatch={dispatch}/>
-      <ItemList items={items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={rooms} roomsFilter={roomsFilter}
-                dispatch={dispatch}/>
-    </div>
+    return (
+      <div>
+        <ItemList items={items.filter(item => roomsFilter ? item.roomId === roomsFilter : true)} rooms={rooms} roomsFilter={roomsFilter}
+                  dispatch={dispatch}/>
+        <Makmar rooms={rooms} dispatch={dispatch}/>
+        <ItemsTraveling items={items.filter(item => item.roomId === "-1")} dispatch={dispatch} />
+      </div>
+    );
   }
 
   componentWillMount() {
-    requestInitialData(this.props.dispatch);
+    debugger;
+    this.props.dispatch(requestInitialData());
+    this.props.dispatch(watchTravelingItems());
   }
 }
 

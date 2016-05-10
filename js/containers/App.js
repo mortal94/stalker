@@ -15,10 +15,15 @@ itemLogRef.on("child_added", function(snapshot, prevChildKey) {
   store.dispatch(addItemLog(logItem));
 });
 
+const styles = {
+  app: {
+  }
+};
+
 export default React.createClass({
   render() {
     return (
-      <div>
+      <div style={styles.app}>
 
         {/* <Home /> is your app entry point */}
         <Provider store={store}>
